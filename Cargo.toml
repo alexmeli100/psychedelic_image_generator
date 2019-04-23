@@ -1,0 +1,12 @@
+[package]
+name = "psychedelic_image_generator"
+version = "0.1.0"
+authors = ["Alex Meli <alexmeli100@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+image = "0.21.1"
+rand = "0.6.5"
+itertools = "0.8.0"
+rayon = "1.0.3"
+clap = "2.33.0"
