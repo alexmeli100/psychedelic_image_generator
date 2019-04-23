@@ -11,7 +11,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bca20245-1ef7-4f8b-9076-1c33157dc688" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -64,7 +63,7 @@
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="52">
-              <caret line="2" column="6" lean-forward="true" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+              <caret line="2" column="5" lean-forward="true" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -92,7 +91,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="196" />
     <option name="y" value="358" />
     <option name="width" value="2536" />
@@ -110,6 +109,11 @@
             <path>
               <item name="psychedelic_image_generator" type="b2602c69:ProjectViewProjectNode" />
               <item name="psychedelic_image_generator" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="psychedelic_image_generator" type="b2602c69:ProjectViewProjectNode" />
+              <item name="psychedelic_image_generator" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -172,16 +176,15 @@
       <workItem from="1555595515321" duration="6217000" />
       <workItem from="1555631109847" duration="3685000" />
       <workItem from="1555794754624" duration="3451000" />
-      <workItem from="1555993782943" duration="716000" />
+      <workItem from="1555993782943" duration="1091000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49092000" />
+    <option name="totallyTimeSpent" value="49467000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="-6" width="1513" height="983" extended-state="7" />
-    <editor active="true" />
+    <frame x="-6" y="-6" width="1513" height="983" extended-state="6" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24398625" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -257,7 +260,7 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="52">
-          <caret line="2" column="6" lean-forward="true" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+          <caret line="2" column="5" lean-forward="true" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="5" />
         </state>
       </provider>
     </entry>
