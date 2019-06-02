@@ -3,13 +3,18 @@ extern crate itertools;
 
 pub mod image_generator;
 pub mod funcs;
+pub mod input;
 
 use image_generator::ImageGenerator;
+use input::*;
 use std::io;
+
+
 use std::fmt::Display;
 use std::fs::create_dir_all;
 use rayon::prelude::*;
-use std::path::Path;
+use std::path::{Path, PathBuf};
+use structopt::StructOpt;
 
 fn make_image<PA, PB>(img_dir: PA, base: PB, dims: u32) -> Result<(), &'static str>
 where PA: AsRef<Path>,
@@ -23,15 +28,14 @@ where PA: AsRef<Path>,
     Ok(())
 }
 
-fn run(n: u32) -> Result<(), io::Error> {
-    let img_dir = "images";
-    create_dir_all(img_dir)?;
+fn run(n: usize, size: u32, path: PathBuf) -> Result<(), io::Error> {
+    create_dir_all(&path)?;
 
-    println!("Saving images into /{}", img_dir);
+    println!("Saving images into {}", &path.to_str().unwrap());
  
     (0..n).into_par_iter()
         .for_each(|x| {
-            make_image(img_dir, format!("img{}.png", x), 600)
+            make_image(&path, format!("img{}.png", x), size)
                 .map_err(|e| println!("{}", e)).unwrap();
         });
 
@@ -39,5 +43,7 @@ fn run(n: u32) -> Result<(), io::Error> {
 }
 
 fn main() {
-    run(30u32).unwrap();
+    let opt = Opt::from_args();
+
+    run(opt.num, opt.size, opt.path).unwrap();
 }
