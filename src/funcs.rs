@@ -3,14 +3,23 @@ use rand::seq::{SliceRandom};
 use rand::{Rng, thread_rng};
 
 enum Funcs {
-    SIN,
-    COS,
-    TIMES
+    SinFunc,
+    CosFunc,
+    TimesFunc,
+    X,
+    Y
 }
 
-enum Vals {
-    XVAL,
-    YVAL
+impl Funcs {
+  pub fn from(&self, prob: f64) -> Box<EvalFunc> {
+      match self {
+          Funcs::SinFunc => Box::new(SinFunc::new(prob)),
+          Funcs::CosFunc=> Box::new(CosFunc::new(prob)),
+          Funcs::TimesFunc => Box::new(TimesFunc::new(prob)),
+          Funcs::X => Box::new(X),
+          Funcs::Y => Box::new(Y)
+      }
+  }  
 }
 
 pub struct X;
@@ -40,7 +49,7 @@ pub struct CosFunc {
     arg: Box<EvalFunc>,
 }
 
-pub struct Times {
+pub struct TimesFunc {
     lhs: Box<EvalFunc>,
     rhs: Box<EvalFunc>
 }
@@ -57,7 +66,7 @@ impl EvalFunc for SinFunc {
     }
 }
 
-impl<'a> CosFunc {
+impl CosFunc {
     fn new(prob: f64) -> CosFunc {
         CosFunc{arg: build_expr(prob * prob)}
     }
@@ -69,36 +78,29 @@ impl EvalFunc for CosFunc {
     }
 }
 
-impl  Times {
-    fn new(prob: f64) -> Times {
-        Times {
+impl  TimesFunc {
+    fn new(prob: f64) -> TimesFunc {
+        TimesFunc {
             lhs: build_expr(prob * prob),
             rhs: build_expr(prob * prob)
         }
     }
 }
 
-impl EvalFunc for Times {
+impl EvalFunc for TimesFunc {
     fn eval(&self, x: f64, y: f64) -> f64 {
         self.lhs.eval(x, y) * self.rhs.eval(x, y)
     }
 }
 
 pub fn build_expr(prob: f64) -> Box<EvalFunc> {
-    let rng_func = vec![Funcs::SIN, Funcs::COS, Funcs::TIMES];
-    let rng_val = vec![Vals::XVAL, Vals::YVAL];
+    let rng_func = vec![Funcs::SinFunc, Funcs::CosFunc, Funcs::TimesFunc];
+    let rng_val = vec![Funcs::X, Funcs::Y];
 
 
     if thread_rng().gen_range(0.0, 1.0) < prob {
-        match rng_func.choose(&mut thread_rng()).unwrap() {
-            Funcs::SIN => Box::new(SinFunc::new(prob)),
-            Funcs::COS => Box::new(CosFunc::new(prob)),
-            Funcs::TIMES => Box::new(Times::new(prob))
-        }
+        rng_func.choose(&mut thread_rng()).unwrap().from(prob)
     } else {
-        match rng_val.choose(&mut thread_rng()).unwrap() {
-            Vals::XVAL => Box::new(X),
-            Vals::YVAL => Box::new(Y)
-        }
+        rng_val.choose(&mut thread_rng()).unwrap().from(prob)
     }
 }
