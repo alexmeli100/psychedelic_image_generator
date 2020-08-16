@@ -2,6 +2,7 @@ use std::f64;
 use rand::seq::{SliceRandom};
 use rand::{Rng, thread_rng};
 
+#[derive(Copy, Clone)]
 enum Funcs {
     SinFunc,
     CosFunc,
@@ -10,24 +11,24 @@ enum Funcs {
     Y
 }
 
-impl Funcs {
-  pub fn from(&self, prob: f64) -> Box<EvalFunc> {
-      match self {
-          Funcs::SinFunc => Box::new(SinFunc::new(prob)),
-          Funcs::CosFunc=> Box::new(CosFunc::new(prob)),
-          Funcs::TimesFunc => Box::new(TimesFunc::new(prob)),
-          Funcs::X => Box::new(X),
-          Funcs::Y => Box::new(Y)
-      }
-  }  
+pub trait EvalFunc {
+    fn eval(&self, x: f64, y: f64) -> f64;
+}
+
+impl From<(Funcs, f64)> for Box<dyn EvalFunc> {
+    fn from(t: (Funcs, f64)) -> Self {
+        match t.0 {
+            Funcs::SinFunc => Box::new(SinFunc::new(t.1)),
+            Funcs::CosFunc=> Box::new(CosFunc::new(t.1)),
+            Funcs::TimesFunc => Box::new(TimesFunc::new(t.1)),
+            Funcs::X => Box::new(X),
+            Funcs::Y => Box::new(Y)
+        }
+    }
 }
 
 pub struct X;
 pub struct Y;
-
-pub trait EvalFunc {
-    fn eval(&self, x: f64, y: f64) -> f64;
-}
 
 impl EvalFunc for X {
     fn eval(&self, x: f64, _y: f64) -> f64 {
@@ -42,16 +43,16 @@ impl EvalFunc for Y {
 }
 
 pub struct SinFunc {
-    arg: Box<EvalFunc>,
+    arg: Box<dyn EvalFunc>,
 }
 
 pub struct CosFunc {
-    arg: Box<EvalFunc>,
+    arg: Box<dyn EvalFunc>,
 }
 
 pub struct TimesFunc {
-    lhs: Box<EvalFunc>,
-    rhs: Box<EvalFunc>
+    lhs: Box<dyn EvalFunc>,
+    rhs: Box<dyn EvalFunc>
 }
 
 impl SinFunc {
@@ -93,14 +94,16 @@ impl EvalFunc for TimesFunc {
     }
 }
 
-pub fn build_expr(prob: f64) -> Box<EvalFunc> {
+pub fn build_expr(prob: f64) -> Box<dyn EvalFunc> {
     let rng_func = vec![Funcs::SinFunc, Funcs::CosFunc, Funcs::TimesFunc];
     let rng_val = vec![Funcs::X, Funcs::Y];
 
-
+    let f;
     if thread_rng().gen_range(0.0, 1.0) < prob {
-        rng_func.choose(&mut thread_rng()).unwrap().from(prob)
+        f = rng_func.choose(&mut thread_rng()).unwrap();
     } else {
-        rng_val.choose(&mut thread_rng()).unwrap().from(prob)
+        f = rng_val.choose(&mut thread_rng()).unwrap();
     }
+
+    (*f, prob).into()
 }
